@@ -1,7 +1,7 @@
 {
   "name": "menuitem",
   "author": "Erik Vold",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MPL 2.0",
   "main": "index.js",
   "dependencies": {

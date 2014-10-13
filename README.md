@@ -1,6 +1,6 @@
 # Menuitem
 
-The menuitems API is a simple way to create a [Menuitem](https://developer.mozilla.org/en/XUL/PopupGuide/MenuItems),
+The menuitems API is a simple way to create a menuitem,
 which can perform an action when clicked, and display state.
 
 ## Example
