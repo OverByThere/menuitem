@@ -1,14 +1,14 @@
 {
-  "name": "addon-pathfinder",
+  "name": "menuitem",
   "author": "Erik Vold",
-  "version": "1.0.2",
+  "version": "0.0.1",
   "license": "MPL 2.0",
   "main": "index.js",
+  "dependencies": {
+    "addon-pathfinder": "1.0.2"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jetpack-labs/pathfinder"
-  },
-  "devDependencies": {
-    "addon-httpd": "0.0.1"
+    "url": "https://github.com/jetpack-labs/menuitem"
   }
 }

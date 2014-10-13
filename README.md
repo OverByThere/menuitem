@@ -1,22 +1,25 @@
-# Add-on Pathfinder
+# Menuitem
 
-The Add-on Pathfinder is the collection of Jetpack modules made to be used with the
-[Add-on SDK](https://github.com/mozilla/addon-sdk).
+The menuitems API is a simple way to create a [Menuitem](https://developer.mozilla.org/en/XUL/PopupGuide/MenuItems),
+which can perform an action when clicked, and display state.
 
-## Highlights
+## Example
 
-* Toolbar buttons
-* Menuitems
-* GCLI
-* Downloads
-* About/Resource Schemes
-* UserStyles
-* UserScripts
-* XUL Help
-* ZIP Utilities
-* Content policies
-* Content Permissions
-* Awesomebar
-* Modifying Request Headers
-* Redirects
-* Much much more!...
+    exports.main = function(options) {
+      // create menuitem for the File menu,
+      // and insert it before the 'Quit' menuitem
+      require("menuitems").Menuitem({
+        id: "myextprefix-some-mi-id",
+        menuid: "menu_FilePopup",
+        insertbefore: "menu_FileQuitItem",
+        "label": _("label"),
+        "accesskey": _("label.ak"),
+        image: self.data.url("icon.png"),
+        className: 'pizazz',
+        disabled: false,
+        checked: false,
+        onCommand: function() {
+          // do something
+        }
+      });
+    };
