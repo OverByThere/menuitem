@@ -1,9 +1,17 @@
 {
   "name": "menuitem",
   "author": "Erik Vold",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MPL 2.0",
   "main": "index.js",
+  "keywords": [
+    "gecko",
+    "firefox",
+    "jetpack",
+    "menuitem",
+    "menu",
+    "ui"
+  ],
   "dependencies": {
     "addon-pathfinder": "1.0.2"
   },
