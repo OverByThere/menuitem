@@ -1,5 +1,7 @@
 # Menuitem
 
+[![Build Status](https://travis-ci.org/jetpack-labs/menuitem.png)](https://travis-ci.org/jetpack-labs/menuitem)
+
 The menuitems API is a simple way to create a menuitem,
 which can perform an action when clicked, and display state.
 
@@ -7,7 +9,7 @@ which can perform an action when clicked, and display state.
 
     // create menuitem for the File menu,
     // and insert it before the 'Quit' menuitem
-    require("menuitems").Menuitem({
+    require("menuitem").Menuitem({
       id: "myextprefix-some-mi-id",
       menuid: "menu_FilePopup",
       insertbefore: "menu_FileQuitItem",
