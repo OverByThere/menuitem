@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/jetpack-labs/menuitem.png)](https://travis-ci.org/jetpack-labs/menuitem)
 
+[![NPM](https://nodei.co/npm/menuitem.png?stars&downloads)](https://nodei.co/npm/menuitem/)
+[![NPM](https://nodei.co/npm-dl/menuitem.png)](https://nodei.co/npm/menuitem)
+
 The menuitems API is a simple way to create a menuitem,
 which can perform an action when clicked, and display state.
 
