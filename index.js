@@ -54,7 +54,7 @@ let Menuitem = Class({
   clone: function (overwrites) {
     let opts = Object.clone(menuitemNS(this).options);
     for (let key in overwrites) {
-      opts[key] = ovrewrites[key];
+      opts[key] = overwrites[key];
     }
     return Menuitem(opts);
   },
