@@ -11,7 +11,7 @@ const { isBrowser } = require("sdk/window/utils");
 const { EventTarget } = require('sdk/event/target');
 const menuitemNS = require("sdk/core/namespace").ns();
 
-const { unload } = require('addon-pathfinder/addon/unload');
+const { unload } = require('pathfinder/lib/addon/unload');
 
 const NS_XUL = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
