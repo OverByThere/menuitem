@@ -12,6 +12,9 @@
     "menu",
     "ui"
   ],
+  "dependencies": {
+    "pathfinder": "git+https://github.com/OverByThere/addon-pathfinder.git"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/OverByThere/menuitem"
