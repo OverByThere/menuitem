@@ -1,8 +1,8 @@
 {
   "name": "menuitem",
   "author": "Erik Vold",
-  "version": "0.0.4",
-  "license": "MPL 2.0",
+  "version": "0.0.5",
+  "license": "MPL-2.0",
   "main": "index.js",
   "keywords": [
     "gecko",
@@ -17,6 +17,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OverByThere/menuitem"
+    "url": "git+https://github.com/OverByThere/menuitem.git"
+  },
+  "description": "[![Build Status](https://travis-ci.org/jetpack-labs/menuitem.png)](https://travis-ci.org/jetpack-labs/menuitem)",
+  "bugs": {
+    "url": "https://github.com/OverByThere/menuitem/issues"
+  },
+  "homepage": "https://github.com/OverByThere/menuitem#readme",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
