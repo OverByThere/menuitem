@@ -1,6 +1,6 @@
 # Menuitem
 
-[![Build Status](https://travis-ci.org/jetpack-labs/menuitem.png)](https://travis-ci.org/jetpack-labs/menuitem)
+[![Build Status](https://travis-ci.org/OverByThere/menuitem.png)](https://travis-ci.org/OverByThere/menuitem)
 
 [![NPM](https://nodei.co/npm/menuitem.png?stars&downloads)](https://nodei.co/npm/menuitem/)
 [![NPM](https://nodei.co/npm-dl/menuitem.png)](https://nodei.co/npm/menuitem)
