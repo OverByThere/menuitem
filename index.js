@@ -22,6 +22,7 @@ function MenuitemOptions(options) {
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
     label: { is: ["string"] },
     include: { is: ['string', 'undefined'] },
+    image: { is: ['string', 'undefined'] },
     disabled: { is: ["undefined", "boolean"], map: function(v) !!v},
     accesskey: { is: ["undefined", "string"] },
     key: { is: ["undefined", "string"] },
