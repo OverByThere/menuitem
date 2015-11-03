@@ -46,6 +46,8 @@ let Menuitem = Class({
   get id() menuitemNS(this).options.id,
   get label() menuitemNS(this).options.label,
   set label(val) updateProperty(this, 'label', val),
+  get image() menuitemNS(this).options.image,
+  set image(val) updateProperty(this, 'image', val),
   get checked() menuitemNS(this).options.checked,
   set checked(val) updateProperty(this, 'checked', !!val),
   get disabled() menuitemNS(this).options.disabled,
