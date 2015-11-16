@@ -33,10 +33,10 @@ function MenuitemOptions(options) {
   });
 }
 
-let Menuitem = Class({
+let Menuitem = new Class({
   extends: EventTarget,
   initialize: function(options) {
-    options = menuitemNS(this).options = MenuitemOptions(options);
+    options = menuitemNS(this).options = new MenuitemOptions(options);
     EventTarget.prototype.initialize.call(this, options);
 
     menuitemNS(this).destroyed = false;
@@ -59,7 +59,7 @@ let Menuitem = Class({
     for (let key in overwrites) {
       opts[key] = overwrites[key];
     }
-    return Menuitem(opts);
+    return new Menuitem(opts);
   },
   get menuid() menuitemNS(this).options.menuid,
   set menuid(val) {
@@ -110,16 +110,15 @@ function addMenuitems(self, options) {
 
       // add unloader
       let unloader = function unloader() {
-        menuitem.parentNode && menuitem.parentNode.removeChild(menuitem);
         menuitems[menuitems_i] = null;
       };
+
+      let remover = unload(unloader, window);
 
       menuitemNS(self).unloaders.push(function() {
         remover();
         unloader();
       });
-
-      let remover = unload(unloader, window);
     }
 
   });
@@ -199,7 +198,7 @@ function tryParent(parent, menuitem, before) {
   return false;
 }
 
-function insertBefore(parent, insertBefore) {
+var insertBefore = function(parent, insertBefore) {
   if (typeof insertBefore == "number") {
     switch (insertBefore) {
       case MenuitemExport.FIRST_CHILD:
@@ -211,10 +210,10 @@ function insertBefore(parent, insertBefore) {
     return parent.querySelector("#" + insertBefore);
   }
   return insertBefore;
-}
+};
 
 function MenuitemExport(options) {
-  return Menuitem(options);
+  return new Menuitem(options);
 }
 MenuitemExport.FIRST_CHILD = 1;
 
