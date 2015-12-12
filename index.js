@@ -20,6 +20,8 @@ function MenuitemOptions(options) {
     id: { is: ['string'] },
     menuid: { is: ['undefined', 'string'] },
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
+    separatorbefore: { is: ['undefined', 'boolean'], map: v => !!v },
+    separatorafter: { is: ['undefined', 'boolean'], map: v => !!v },
     label: { is: ["string"] },
     include: { is: ['string', 'undefined'] },
     image: { is: ['string', 'undefined'] },
@@ -100,8 +102,19 @@ function addMenuitems(self, options) {
           window.document.createElementNS(NS_XUL, "menuitem"), options);
       var menuitems_i = menuitems.push(menuitem) - 1;
 
-      // add the menutiem to the ui
-      let added = updateMenuitemParent(menuitem, options, function(id) window.document.getElementById(id));
+      var createSeparator = () => window.document.createElementNS(NS_XUL, "menuseparator");
+
+      var sepBefore, sepAfter;
+      if (options.separatorbefore)
+        sepBefore = createSeparator();
+      if (options.separatorafter)
+        sepAfter = createSeparator();
+
+      var insertF = item => updateMenuitemParent(item, options, function(id) window.document.getElementById(id));
+
+      sepBefore && insertF(sepBefore);
+      insertF(menuitem);
+      sepAfter && insertF(sepAfter);
 
       menuitem.addEventListener("command", function() {
         if (!self.disabled)
@@ -110,7 +123,12 @@ function addMenuitems(self, options) {
 
       // add unloader
       let unloader = function unloader() {
-        menuitem.parentNode && menuitem.parentNode.removeChild(menuitem);
+        let parent = menuitem.parentNode;
+        if (parent) {
+          parent.removeChild(menuitem);
+          sepBefore && parent.removeChild(sepBefore);
+          sepAfter && parent.removeChild(sepAfter);
+        }
         menuitems[menuitems_i] = null;
       };
 
