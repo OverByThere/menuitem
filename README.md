@@ -1,7 +1,12 @@
 # Menuitem
 
-Provides an API to create menuitems using the addon-sdk. Compared to the base
-version, this supports separators around the item.
+[![Build Status](https://travis-ci.org/OverByThere/menuitem.png)](https://travis-ci.org/OverByThere/menuitem)
+
+[![NPM](https://nodei.co/npm/menuitem.png?stars&downloads)](https://nodei.co/npm/menuitem/)
+[![NPM](https://nodei.co/npm-dl/menuitem.png)](https://nodei.co/npm/menuitem)
+
+The menuitems API is a simple way to create a menuitem,
+which can perform an action when clicked, and display state.
 
 ## Example
 
