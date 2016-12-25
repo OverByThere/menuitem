@@ -146,41 +146,51 @@ function addMenuitems(self, options) {
   return { menuitems: menuitems };
 }
 
-function updateMenuitemParent(menuitem, options, $) {
-  // add the menutiem to the ui
-  if (Array.isArray(options.menuid)) {
-      let ids = options.menuid;
-      let pnode = null;
+/**
+ *  add the menutiem to the ui
+ * @param menuitem
+ * @param options
+ * @param $
+ * @returns {*}
+ */
+function updateMenuitemParent(menuitem, options, $)
+{
+	// add the menutiem to the ui
+	if (!options.menuid)
+	{
+		return false;
+	}
 
-	  console.log('[updateMenuitemParent]', arguments, ids);
+	let ids = Array.isArray(options.menuid) ? options.menuid : [options.menuid];
+	let menuid = null;
 
-      for (var len = ids.length, i = 0; i < len; i++) {
-
-		  console.log('[updateMenuitemParent]', i, $(ids[i]));
-
-		  if (options.insertafter !== void(0) && tryParent($(ids[i]), menuitem, options.insertafter, true))
-			  return true;
-        if (options.insertbefore !== void(0) && tryParent($(ids[i]), menuitem, options.insertbefore, false))
-        	return true;
-		
-
+	for (var len = ids.length, i = 0; i < len; i++)
+	{
 		if ($(ids[i]))
-			pnode = $(ids[i]);
-      }
+		{
+			menuid = $(ids[i]);
+		}
+		else
+		{
+			continue;
+		}
 
-	  return tryParent(pnode, menuitem);
-  }
-  else {
+		if (options.insertafter !== void(0) && tryParent(menuid, menuitem, options.insertafter, true))
+		{
+			return true;
+		}
+		if (options.insertbefore !== void(0) && tryParent(menuid, menuitem, options.insertbefore, false))
+		{
+			return true;
+		}
+	}
 
-	  if (options.insertafter !== void(0) && tryParent($(options.menuid), menuitem, options.insertafter, true))
-		  return true;
-	  if (options.insertbefore !== void(0) && tryParent($(options.menuid), menuitem, options.insertbefore, false))
-		  return true;
+	if (menuid)
+	{
+		return tryParent(menuid, menuitem);
+	}
 
-    return tryParent($(options.menuid), menuitem);
-  }
-
-  return false;
+	return false;
 }
 
 function updateMenuitemAttributes(menuitem, options) {
@@ -225,41 +235,50 @@ function forEachMI(callback, menuitem) {
   });
 }
 
-function tryParent(parent, menuitem, before, insertafter) {
-  if (parent) {
-    if (!before) {
-      parent.appendChild(menuitem);
-      return true;
-    }
-
-    var node = null;
-
-    if (insertafter)
+/**
+ *
+ * @param parent
+ * @param menuitem
+ * @param before
+ * @param insertafter
+ * @returns {boolean}
+ */
+function tryParent(parent, menuitem, before, insertafter)
+{
+	if (parent)
 	{
-		if (node = insertBefore(parent, before))
+		if (before)
 		{
-			console.log('[tryParent]', node);
-			node = node.nextSibling;
+			var node = null;
+
+			if (insertafter)
+			{
+				if (node = insertBefore(parent, before))
+				{
+					node = node.nextSibling;
+				}
+			}
+			else
+			{
+				node = insertBefore(parent, before);
+			}
+
+			if (node)
+			{
+				parent.insertBefore(menuitem, node);
+				return true;
+			}
+			else if (insertafter === false || insertafter === true)
+			{
+				return false;
+			}
 		}
+
+		parent.appendChild(menuitem);
+		return true;
 	}
-	else
-	{
-		node = insertBefore(parent, before);
-	}
 
-	  console.log('[tryParent]', arguments, node);
-
-	  if (!node && (insertafter === false || insertafter === true))
-	  {
-		  return false;
-	  }
-
-	parent.insertBefore(menuitem, node);
-
-    return true;
-  }
-
-  return false;
+	return false;
 }
 
 function insertBefore(parent, insertBefore) {
