@@ -150,13 +150,34 @@ function updateMenuitemParent(menuitem, options, $) {
   // add the menutiem to the ui
   if (Array.isArray(options.menuid)) {
       let ids = options.menuid;
+      let pnode = null;
+
+	  console.log('[updateMenuitemParent]', arguments, ids);
+
       for (var len = ids.length, i = 0; i < len; i++) {
-        if (tryParent($(ids[i]), menuitem, options.insertbefore))
-          return true;
+
+		  console.log('[updateMenuitemParent]', i, $(ids[i]));
+
+		  if (options.insertafter !== void(0) && tryParent($(ids[i]), menuitem, options.insertafter, true))
+			  return true;
+        if (options.insertbefore !== void(0) && tryParent($(ids[i]), menuitem, options.insertbefore, false))
+        	return true;
+		
+
+		if ($(ids[i]))
+			pnode = $(ids[i]);
       }
+
+	  return tryParent(pnode, menuitem);
   }
   else {
-    return tryParent($(options.menuid), menuitem, options.insertbefore);
+
+	  if (options.insertafter !== void(0) && tryParent($(options.menuid), menuitem, options.insertafter, true))
+		  return true;
+	  if (options.insertbefore !== void(0) && tryParent($(options.menuid), menuitem, options.insertbefore, false))
+		  return true;
+
+    return tryParent($(options.menuid), menuitem);
   }
 
   return false;
@@ -204,14 +225,37 @@ function forEachMI(callback, menuitem) {
   });
 }
 
-function tryParent(parent, menuitem, before) {
+function tryParent(parent, menuitem, before, insertafter) {
   if (parent) {
     if (!before) {
       parent.appendChild(menuitem);
       return true;
     }
 
-    parent.insertBefore(menuitem, insertBefore(parent, before));
+    var node = null;
+
+    if (insertafter)
+	{
+		if (node = insertBefore(parent, before))
+		{
+			console.log('[tryParent]', node);
+			node = node.nextSibling;
+		}
+	}
+	else
+	{
+		node = insertBefore(parent, before);
+	}
+
+	  console.log('[tryParent]', arguments, node);
+
+	  if (!node && (insertafter === false || insertafter === true))
+	  {
+		  return false;
+	  }
+
+	parent.insertBefore(menuitem, node);
+
     return true;
   }
 
