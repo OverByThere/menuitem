@@ -21,8 +21,8 @@ function MenuitemOptions(options) {
     menuid: { is: ['undefined', 'string'] },
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
 	insertafter: { is: ['undefined', 'string', 'object', 'number'] },
-    separatorbefore: { is: ['undefined', 'boolean'], map: v => !!v },
-    separatorafter: { is: ['undefined', 'boolean'], map: v => !!v },
+    separatorbefore: { is: ['undefined', 'boolean', 'string', 'object'] },
+    separatorafter: { is: ['undefined', 'boolean', 'string', 'object'] },
     label: { is: ["string"] },
     include: { is: ['string', 'undefined'] },
     image: { is: ['string', 'undefined'] },
@@ -105,17 +105,37 @@ function addMenuitems(self, options) {
 
       var createSeparator = () => window.document.createElementNS(NS_XUL, "menuseparator");
 
+      var createSeparator = function (data)
+	  {
+		  let elem;
+		  if (typeof data === 'object')
+		  {
+			  elem = data;
+		  }
+		  else
+		  {
+			  elem = window.document.createElementNS(NS_XUL, "menuseparator");
+		  }
+
+		  if (typeof data === 'string')
+		  {
+			  elem.id = data;
+		  }
+
+		  return elem;
+	  }
+
       var sepBefore, sepAfter;
       if (options.separatorbefore)
-        sepBefore = createSeparator();
+        sepBefore = createSeparator(options.separatorbefore);
       if (options.separatorafter)
-        sepAfter = createSeparator();
+        sepAfter = createSeparator(options.separatorafter);
 
       var insertF = item => updateMenuitemParent(item, options, function(id) window.document.getElementById(id));
 
-      sepBefore && insertF(sepBefore);
       insertF(menuitem);
-      sepAfter && insertF(sepAfter);
+      sepBefore && menuitem.parentNode.insertBefore(sepBefore, menuitem);
+      sepAfter && menuitem.parentNode.insertBefore(sepAfter, menuitem.nextSibling);
 
       menuitem.addEventListener("command", function() {
         if (!self.disabled)
