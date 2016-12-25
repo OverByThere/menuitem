@@ -21,8 +21,8 @@ function MenuitemOptions(options) {
     menuid: { is: ['undefined', 'string'] },
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
 	insertafter: { is: ['undefined', 'string', 'object', 'number'] },
-    separatorbefore: { is: ['undefined', 'boolean'], map: v => !!v },
-    separatorafter: { is: ['undefined', 'boolean'], map: v => !!v },
+    separatorbefore: { is: ['undefined', 'boolean', 'string', 'object'] },
+    separatorafter: { is: ['undefined', 'boolean', 'string', 'object'] },
     label: { is: ["string"] },
     include: { is: ['string', 'undefined'] },
     image: { is: ['string', 'undefined'] },
@@ -103,19 +103,17 @@ function addMenuitems(self, options) {
           window.document.createElementNS(NS_XUL, "menuitem"), options);
       var menuitems_i = menuitems.push(menuitem) - 1;
 
-      var createSeparator = () => window.document.createElementNS(NS_XUL, "menuseparator");
-
       var sepBefore, sepAfter;
       if (options.separatorbefore)
-        sepBefore = createSeparator();
+        sepBefore = createSeparator(options.separatorbefore, window);
       if (options.separatorafter)
-        sepAfter = createSeparator();
+        sepAfter = createSeparator(options.separatorafter, window);
 
       var insertF = item => updateMenuitemParent(item, options, function(id) window.document.getElementById(id));
 
-      sepBefore && insertF(sepBefore);
       insertF(menuitem);
-      sepAfter && insertF(sepAfter);
+      sepBefore && menuitem.parentNode.insertBefore(sepBefore, menuitem);
+      sepAfter && menuitem.parentNode.insertBefore(sepAfter, menuitem.nextSibling);
 
       menuitem.addEventListener("command", function() {
         if (!self.disabled)
@@ -295,9 +293,36 @@ function insertBefore(parent, insertBefore) {
   return insertBefore;
 }
 
+/**
+ *
+ * @param data - ['undefined', 'boolean', 'string', 'object']
+ * @param window
+ * @returns {*}
+ */
+function createSeparator(data, window)
+{
+	let elem;
+	if (typeof data === 'object')
+	{
+		elem = data;
+	}
+	else
+	{
+		elem = window.document.createElementNS(NS_XUL, "menuseparator");
+	}
+
+	if (typeof data === 'string')
+	{
+		elem.id = data;
+	}
+
+	return elem;
+}
+
 function MenuitemExport(options) {
   return Menuitem(options);
 }
 MenuitemExport.FIRST_CHILD = 1;
 
 exports.Menuitem = MenuitemExport;
+exports.createSeparator = createSeparator;
