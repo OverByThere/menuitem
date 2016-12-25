@@ -103,33 +103,11 @@ function addMenuitems(self, options) {
           window.document.createElementNS(NS_XUL, "menuitem"), options);
       var menuitems_i = menuitems.push(menuitem) - 1;
 
-      var createSeparator = () => window.document.createElementNS(NS_XUL, "menuseparator");
-
-      var createSeparator = function (data)
-	  {
-		  let elem;
-		  if (typeof data === 'object')
-		  {
-			  elem = data;
-		  }
-		  else
-		  {
-			  elem = window.document.createElementNS(NS_XUL, "menuseparator");
-		  }
-
-		  if (typeof data === 'string')
-		  {
-			  elem.id = data;
-		  }
-
-		  return elem;
-	  }
-
       var sepBefore, sepAfter;
       if (options.separatorbefore)
-        sepBefore = createSeparator(options.separatorbefore);
+        sepBefore = createSeparator(options.separatorbefore, window);
       if (options.separatorafter)
-        sepAfter = createSeparator(options.separatorafter);
+        sepAfter = createSeparator(options.separatorafter, window);
 
       var insertF = item => updateMenuitemParent(item, options, function(id) window.document.getElementById(id));
 
@@ -315,9 +293,36 @@ function insertBefore(parent, insertBefore) {
   return insertBefore;
 }
 
+/**
+ *
+ * @param data - ['undefined', 'boolean', 'string', 'object']
+ * @param window
+ * @returns {*}
+ */
+function createSeparator(data, window)
+{
+	let elem;
+	if (typeof data === 'object')
+	{
+		elem = data;
+	}
+	else
+	{
+		elem = window.document.createElementNS(NS_XUL, "menuseparator");
+	}
+
+	if (typeof data === 'string')
+	{
+		elem.id = data;
+	}
+
+	return elem;
+}
+
 function MenuitemExport(options) {
   return Menuitem(options);
 }
 MenuitemExport.FIRST_CHILD = 1;
 
 exports.Menuitem = MenuitemExport;
+exports.createSeparator = createSeparator;
