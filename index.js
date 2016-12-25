@@ -20,6 +20,7 @@ function MenuitemOptions(options) {
     id: { is: ['string'] },
     menuid: { is: ['undefined', 'string'] },
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
+	insertafter: { is: ['undefined', 'string', 'object', 'number'] },
     separatorbefore: { is: ['undefined', 'boolean'], map: v => !!v },
     separatorafter: { is: ['undefined', 'boolean'], map: v => !!v },
     label: { is: ["string"] },
@@ -145,20 +146,51 @@ function addMenuitems(self, options) {
   return { menuitems: menuitems };
 }
 
-function updateMenuitemParent(menuitem, options, $) {
-  // add the menutiem to the ui
-  if (Array.isArray(options.menuid)) {
-      let ids = options.menuid;
-      for (var len = ids.length, i = 0; i < len; i++) {
-        if (tryParent($(ids[i]), menuitem, options.insertbefore))
-          return true;
-      }
-  }
-  else {
-    return tryParent($(options.menuid), menuitem, options.insertbefore);
-  }
+/**
+ *  add the menutiem to the ui
+ * @param menuitem
+ * @param options
+ * @param $
+ * @returns {*}
+ */
+function updateMenuitemParent(menuitem, options, $)
+{
+	// add the menutiem to the ui
+	if (!options.menuid)
+	{
+		return false;
+	}
 
-  return false;
+	let ids = Array.isArray(options.menuid) ? options.menuid : [options.menuid];
+	let menuid = null;
+
+	for (var len = ids.length, i = 0; i < len; i++)
+	{
+		if ($(ids[i]))
+		{
+			menuid = $(ids[i]);
+		}
+		else
+		{
+			continue;
+		}
+
+		if (options.insertafter !== void(0) && tryParent(menuid, menuitem, options.insertafter, true))
+		{
+			return true;
+		}
+		if (options.insertbefore !== void(0) && tryParent(menuid, menuitem, options.insertbefore, false))
+		{
+			return true;
+		}
+	}
+
+	if (menuid)
+	{
+		return tryParent(menuid, menuitem);
+	}
+
+	return false;
 }
 
 function updateMenuitemAttributes(menuitem, options) {
@@ -203,18 +235,50 @@ function forEachMI(callback, menuitem) {
   });
 }
 
-function tryParent(parent, menuitem, before) {
-  if (parent) {
-    if (!before) {
-      parent.appendChild(menuitem);
-      return true;
-    }
+/**
+ *
+ * @param parent
+ * @param menuitem
+ * @param before
+ * @param insertafter
+ * @returns {boolean}
+ */
+function tryParent(parent, menuitem, before, insertafter)
+{
+	if (parent)
+	{
+		if (before)
+		{
+			var node = null;
 
-    parent.insertBefore(menuitem, insertBefore(parent, before));
-    return true;
-  }
+			if (insertafter)
+			{
+				if (node = insertBefore(parent, before))
+				{
+					node = node.nextSibling;
+				}
+			}
+			else
+			{
+				node = insertBefore(parent, before);
+			}
 
-  return false;
+			if (node)
+			{
+				parent.insertBefore(menuitem, node);
+				return true;
+			}
+			else if (insertafter === false || insertafter === true)
+			{
+				return false;
+			}
+		}
+
+		parent.appendChild(menuitem);
+		return true;
+	}
+
+	return false;
 }
 
 function insertBefore(parent, insertBefore) {
