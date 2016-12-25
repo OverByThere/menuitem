@@ -20,6 +20,7 @@ function MenuitemOptions(options) {
     id: { is: ['string'] },
     menuid: { is: ['undefined', 'string'] },
     insertbefore: { is: ['undefined', 'string', 'object', 'number'] },
+	insertafter: { is: ['undefined', 'string', 'object', 'number'] },
     separatorbefore: { is: ['undefined', 'boolean'], map: v => !!v },
     separatorafter: { is: ['undefined', 'boolean'], map: v => !!v },
     label: { is: ["string"] },
