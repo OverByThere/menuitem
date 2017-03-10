@@ -28,3 +28,18 @@ which can perform an action when clicked, and display state.
         // do something
       }
     });
+
+
+    var menuitems = require("menuitem");
+    var menuitem = menuitems.Menuitem({
+    	id: "clickme",
+    	menuid: "menu_ToolsPopup",
+    	label: "Click Me!",
+    	onCommand: function() {
+    		console.log("clicked");
+    	},
+    	separatorbefore: 'test-separatorbefore',
+    	separatorafter: 'test-separatorafter',
+    	insertafter: "devToolsSeparator",
+    	insertbefore: "menu_pageInfo"
+    });
